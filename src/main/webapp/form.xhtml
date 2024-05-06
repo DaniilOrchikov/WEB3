@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <h:form id="form" styleClass="main-form">
+        <div>
+            <h:outputLabel for="X" value="Введите X:"/>
+            <h:inputText prependId="false"
+                         onblur="{this.style.borderColor = 'black'; this.style.boxShadow = 'none'}"
+                         onclick="validate(-2, 2, this)" onkeyup="validate(-2, 2, this)"
+                         styleClass="my-input" id="X" value="#{controller.x}" name="X">
+                <f:converter converterId="javax.faces.Number"/>
+                <f:attribute name="pattern" value="0,#"/>
+            </h:inputText>
+        </div>
+        <div>
+            <h:outputLabel for="Y" value="Введите Y:"/><br/>
+            <h:inputText prependId="false"
+                         onblur="{this.style.borderColor = 'black'; this.style.boxShadow = 'none'}"
+                         onclick="validate(-3, 5, this)" onkeyup="validate(-3, 5, this)"
+                         styleClass="my-input" id="Y" value="#{controller.y}" name="Y">
+                <f:converter converterId="javax.faces.Number"/>
+                <f:attribute name="pattern" value="0,#"/>
+            </h:inputText>
+        </div>
+        <div>
+            <h:outputLabel for="R" value="Введите R:"/><br/>
+            <p:spinner onblur="{this.style.borderColor = 'black'; this.style.boxShadow = 'none'}"
+                       onclick="validateAndSetR(1, 3, this)" onkeyup="validateAndSetR(1, 3, this)"
+                       onchange="setTimeout(validateAndSetR, 100, 1, 3, this)"
+                       styleClass="my-spinner Rfield" id="R" value="#{controller.r}" min="1" max="3"
+                       stepFactor="0.5"/>
+        </div>
+        <h:commandButton onclick="if(!validateSubmit()) {return false}" styleClass="submitButton"
+                         value="Отправить" action="#{controller.submit}"/>
+    </h:form>
+    <h:form style="display: none;">
+        <p:inputText styleClass="X0" style="display: none;" value="#{controller.x}"/>
+        <h:inputText styleClass="Y0" style="display: none;" value="#{controller.y}"/>
+        <h:inputText styleClass="R0" style="display: none;" value="#{controller.r}"/>
+        <h:commandButton styleClass="link" action="#{controller.submit}" style="display: none;"/>
+    </h:form>
+</ui:composition>

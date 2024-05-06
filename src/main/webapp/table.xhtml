@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="scroll-table">
+        <h:dataTable value="#{collectionBean.points}" var="point">-->
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                <h:outputText value="#{converter.convertDoubleToString(point.x, 3)}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                <h:outputText value="#{converter.convertDoubleToString(point.y, 3)}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Радиус</f:facet>
+                <h:outputText value="#{point.r}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Попадание</f:facet>
+                <h:outputText value="#{point.hit}"/>
+            </h:column>
+        </h:dataTable>
+    </div>
+</ui:composition>

@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <svg height="360" width="360" id="chart">
+        <path d="M 180 180 H 324 L 324 36 L 180 36 L 108 180 A 72 72 0 0 0 180 252 Z"></path>
+        <line stroke="black" x1="0" y1="180" x2="360" y2="180"/>
+        <polygon fill="black" points="360, 180 348, 174 348, 186"/>
+        <line stroke="black" x1="180" y1="0" x2="180" y2="360"/>
+        <polygon fill="black" points="180, 0 174, 12 186, 12"/>
+
+        <line stroke="black" x1="252" y1="174" x2="252" y2="186"/>
+        <line stroke="black" x1="324" y1="174" x2="324" y2="186"/>
+
+        <line stroke="black" x1="108" y1="174" x2="108" y2="186"/>
+        <line stroke="black" x1="36" y1="174" x2="36" y2="186"/>
+
+        <line stroke="black" x1="174" y1="252" x2="186" y2="252"/>
+        <line stroke="black" x1="174" y1="324" x2="186" y2="324"/>
+
+        <line stroke="black" x1="174" y1="108" x2="186" y2="108"/>
+        <line stroke="black" x1="174" y1="36" x2="186" y2="36"/>
+
+        <text fill="black" x="20" y="168"
+              class="-R">#{converter.convertDoubleToString(controller.r * -1)}</text>
+        <text fill="black" x="90" y="168"
+              class="-R5">#{converter.convertDoubleToString(controller.r * -0.5)}</text>
+        <text fill="black" x="230" y="168"
+              class="R5">#{converter.convertDoubleToString(controller.r * 0.5)}</text>
+        <text fill="black" x="315" y="168" class="R">#{converter.convertDoubleToString(controller.r)}</text>
+
+        <text fill="black" x="192" y="42" class="R">#{converter.convertDoubleToString(controller.r)}</text>
+        <text fill="black" x="192" y="110"
+              class="R5">#{converter.convertDoubleToString(controller.r * 0.5)}</text>
+        <text fill="black" x="192" y="255"
+              class="-R5">#{converter.convertDoubleToString(controller.r * -0.5)}</text>
+        <text fill="black" x="192" y="325"
+              class="-R">#{converter.convertDoubleToString(controller.r * -1)}</text>
+        <p:repeat value="#{collectionBean.points}" var="point">
+            <circle class='point' fill='#{point.hit ? "green" : "red"}'
+                    cx='#{point.getX() * (144 / controller.r) + 144 + 36}'
+                    cy='#{(point.getY() * (-144 / controller.r) + 144 + 36)}' r='4'/>
+        </p:repeat>
+    </svg>
+</ui:composition>

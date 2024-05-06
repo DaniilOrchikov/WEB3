@@ -1,0 +1,177 @@
+html {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(45deg, #c2c2c2, #8fa7d3, #c2c2c2) fixed;
+    font-size: 20px;
+    text-align: center;
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+}
+
+.block {
+    font-size: 20px;
+    background: white;
+    min-width: 250px;
+    box-sizing: border-box;
+    box-shadow: 0 57px 25px -33px rgba(34, 60, 80, 0.45);
+    border-radius: 15px;
+    padding: 10px 4px 10px 4px;
+    margin: 30px 15px 30px 15px;
+}
+
+.container {
+    min-width: max-content;
+    box-sizing: border-box;
+}
+
+#canvas-basic {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+input[type="submit"] {
+    font-size: 20px;
+    --hover: #94e458;
+    color: #41423b;
+    transition: 0.5s;
+    font-weight: bold;
+    background: none;
+    border: 2px solid;
+    border-radius: 15px;
+    line-height: 0.2;
+    padding: 1em 2em;
+}
+
+input[type="submit"]:hover, input[type="submit"]:focus {
+    box-shadow: inset 0 -3.25em 0 0 var(--hover);
+    border-color: var(--hover);
+    color: #fff;
+}
+
+.radial-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    background: #9b59b6;
+    background: radial-gradient(at center, #3498db, #9b59b6);
+}
+
+#chart {
+    transition: fill 0.3s ease-in-out;
+    transform-origin: center;
+    border-radius: 25%;
+    fill: cornflowerblue;
+}
+
+form {
+    padding: 10px;
+}
+
+.main-form {
+    padding: 10%;
+}
+
+.main-form *:not(input[type="submit"]) {
+    margin-bottom: 3%;
+}
+
+.my-input, .my-spinner .ui-spinner-input, .my-input.ui-inputfield {
+    text-align: left;
+    width: 120px;
+    height: 30px;
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.my-input:hover, .my-spinner .ui-spinner-input:hover, .my-input.ui-inputfield:hover {
+    border-color: dodgerblue;
+}
+
+.my-input:focus, .my-spinner .ui-spinner-input:focus, .my-input.ui-inputfield:focus {
+    border-color: dodgerblue;
+    box-shadow: 0px 0px 8px cornflowerblue;
+    outline-width: 0px;
+}
+
+.my-spinner .ui-spinner-button.ui-spinner-down {
+    border-bottom-right-radius: 15px !important;
+}
+
+.my-spinner .ui-spinner-button.ui-spinner-up {
+    border-top-right-radius: 15px !important;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: lightblue;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: cornflowerblue;
+    border-radius: 15px;
+    border: 3px solid lightblue;
+}
+
+.scroll-table {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 600px;
+}
+
+.scroll-table thead th {
+    position: sticky;
+    background: #c7d9fa;
+    top: 0;
+}
+
+table {
+    min-width: 400px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 16px;
+}
+
+td:first-child, thead th:first-child {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+td:last-child, thead th:last-child {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+tr {
+    border-radius: 15px;
+    transition: 0.4s;
+}
+
+tr:hover {
+    background: #ecf2fe;
+    border-radius: 15px;
+}
