@@ -18,13 +18,24 @@
     <target name="init">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
+        <mkdir dir="${build.tests}"/>
+        <mkdir dir="${junit.report}"/>
     </target>
 
     <target name="resolve" depends="init, init-ivy">
         <ivy:retrieve/>
     </target>
 
-    <target name="compile" depends="init">
+    <path id="classpath">
+        <fileset dir="lib" includes="*.jar"/>
+    </path>
+    <path id="classpath-test">
+        <fileset dir="lib" includes="*.jar"/>
+        <pathelement location="${classes}"/>
+        <pathelement location="${build.tests}"/>
+    </path>
+
+    <target name="compile" depends="clean, init">
         <javac srcdir="${src}" destdir="${classes}" includeantruntime="false">
             <classpath>
                 <fileset dir="${lib}" includes="**/*.jar"/>
@@ -44,7 +55,7 @@
         <copy todir="${classes}">
             <fileset dir="${resources}"/>
         </copy>
-        <jar destfile="${file.jar}"
+        <jar destfile="$${build}/${ant.project.name}.jar"
              basedir="${classes}"
              compress="false"
              index="true">
@@ -52,5 +63,21 @@
         <war destfile="${build}/${ant.project.name}.war" webxml="${build.web.xml}">
             <fileset dir="${build}"/>
         </war>
+    </target>
+    <target name="compile-test" depends="init">
+        <javac destdir="${build.tests}" srcdir="${test}" includeantruntime="false">
+            <classpath refid="classpath-test"/>
+        </javac>
+    </target>
+    <target name="test" depends="compile-test">
+        <junit printsummary="true" haltonfailure="yes" haltonerror="yes">
+            <classpath refid="classpath"/>
+            <classpath location="${build.tests}"/>
+            <test name="com.example.test.AreaResultCheckerTest"/>
+<!--            <batchtest fork="yes" todir="${junit.report}">-->
+<!--                <formatter type="plain"/>-->
+<!--                <fileset dir="${test}" includes="*.java"/>-->
+<!--            </batchtest>-->
+        </junit>
     </target>
 </project>

@@ -22,6 +22,7 @@
         <dependency org="org.postgresql" name="postgresql" rev="42.6.0"/>
         <dependency org="ch.qos.logback" name="logback-classic" rev="1.4.7"/>
         <dependency org="org.testcontainers" name="postgresql" rev="1.18.0" conf="test->default"/>
+        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" />
     </dependencies>
 
 </ivy-module>

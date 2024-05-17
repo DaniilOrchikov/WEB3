@@ -1,9 +1,11 @@
-package com.example.web3;
+package com.example.test;
 
 import static com.example.web3.HibernateUtil.createSession;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.example.web3.Point;
+import com.example.web3.PointDAO;
 import org.hibernate.Session;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
