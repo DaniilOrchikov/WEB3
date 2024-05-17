@@ -5,9 +5,11 @@
         <!-- Убедитесь в наличии Ivy -->
         <available classname="org.apache.ivy.Main" property="ivy.installed"/>
         <mkdir dir="${user.home}/.ant/lib"/>
-        <get dest="${user.home}/.ant/lib/ivy.jar" src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.5.0/ivy-2.5.0.jar"/>
+        <get dest="${user.home}/.ant/lib/ivy.jar"
+             src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.5.0/ivy-2.5.0.jar"/>
         <!-- Загружаем antcontrib, если он не установлен. Замените на нужную вам версию. -->
-        <get dest="${user.home}/.ant/lib/ant-contrib.jar" src="https://repo1.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
+        <get dest="${user.home}/.ant/lib/ant-contrib.jar"
+             src="https://repo1.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
         <fail unless="ivy.installed" message="Ivy не установлен в ANT_HOME/lib и не может быть загружен"/>
     </target>
 
@@ -15,17 +17,40 @@
 
     <target name="init">
         <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
     </target>
 
-    <target name="resolve" depends="init">
+    <target name="resolve" depends="init, init-ivy">
         <ivy:retrieve/>
     </target>
 
-    <target name="compile">
-        <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${classes}" includeantruntime="false">
             <classpath>
                 <fileset dir="${lib}" includes="**/*.jar"/>
             </classpath>
         </javac>
+    </target>
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+    <target name="build" depends="compile">
+        <copy todir="${build}">
+            <fileset dir="${web}"/>
+        </copy>
+        <copy todir="${build.lib}">
+            <fileset dir="${lib}"/>
+        </copy>
+        <copy todir="${classes}">
+            <fileset dir="${resources}"/>
+        </copy>
+        <jar destfile="${file.jar}"
+             basedir="${classes}"
+             compress="false"
+             index="true">
+        </jar>
+        <war destfile="${build}/${ant.project.name}.war" webxml="${build.web.xml}">
+            <fileset dir="${build}"/>
+        </war>
     </target>
 </project>
