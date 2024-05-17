@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project name="WEB3" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property file="build.properties"/>
+    <target name="init-ivy">
+        <!-- Убедитесь в наличии Ivy -->
+        <available classname="org.apache.ivy.Main" property="ivy.installed"/>
+        <mkdir dir="${user.home}/.ant/lib"/>
+        <get dest="${user.home}/.ant/lib/ivy.jar" src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.5.0/ivy-2.5.0.jar"/>
+        <!-- Загружаем antcontrib, если он не установлен. Замените на нужную вам версию. -->
+        <get dest="${user.home}/.ant/lib/ant-contrib.jar" src="https://repo1.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
+        <fail unless="ivy.installed" message="Ivy не установлен в ANT_HOME/lib и не может быть загружен"/>
+    </target>
+
+    <taskdef name="ivy" classname="org.apache.ivy.ant.IvyTask" classpath="${lib}/ivy-2.5.2.jar"/>
+
+    <target name="init">
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="resolve" depends="init">
+        <ivy:retrieve/>
+    </target>
+
+    <target name="compile">
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib}" includes="**/*.jar"/>
+            </classpath>
+        </javac>
+    </target>
+</project>
