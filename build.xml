@@ -71,4 +71,7 @@
             <jvmarg line="${jvm.args}"/>
         </java>
     </target>
+    <target name="native2ascii">
+        <native2ascii encoding="UTF-8" src="src/main/resources" includes="*.properties" dest="${dist}" />
+    </target>
 </project>
