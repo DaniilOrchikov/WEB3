@@ -66,8 +66,8 @@
         </junit>
     </target>
     <target name="env" depends="build">
-        <echo message="Running with Java version: ${java.version} and JVM args: ${jvm.args}"/>
-        <java jar="${jar}" fork="true">
+        <echo message="Running with Java version: ${jvm.version} and JVM args: ${jvm.args}"/>
+        <java jar="${jar}" fork="true" jvmversion="${jvm.version}">
             <jvmarg line="${jvm.args}"/>
         </java>
     </target>
