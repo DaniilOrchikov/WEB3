@@ -1,19 +1,6 @@
 <?xml version="1.0"?>
-<project name="WEB3" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="WEB3" default="build">
     <property file="build.properties"/>
-    <target name="init-ivy">
-        <!-- Убедитесь в наличии Ivy -->
-        <available classname="org.apache.ivy.Main" property="ivy.installed"/>
-        <mkdir dir="${user.home}/.ant/lib"/>
-        <get dest="${user.home}/.ant/lib/ivy.jar"
-             src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/2.5.0/ivy-2.5.0.jar"/>
-        <!-- Загружаем antcontrib, если он не установлен. Замените на нужную вам версию. -->
-        <get dest="${user.home}/.ant/lib/ant-contrib.jar"
-             src="https://repo1.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
-        <fail unless="ivy.installed" message="Ivy не установлен в ANT_HOME/lib и не может быть загружен"/>
-    </target>
-
-    <taskdef name="ivy" classname="org.apache.ivy.ant.IvyTask" classpath="${lib}/ivy-2.5.2.jar"/>
 
     <target name="init">
         <mkdir dir="${build}"/>
@@ -22,29 +9,27 @@
         <mkdir dir="${junit.report}"/>
     </target>
 
-    <target name="resolve" depends="init, init-ivy">
-        <ivy:retrieve/>
-    </target>
-
     <path id="classpath">
         <fileset dir="lib" includes="*.jar"/>
-    </path>
-    <path id="classpath-test">
-        <fileset dir="lib" includes="*.jar"/>
         <pathelement location="${classes}"/>
+    </path>
+
+    <path id="classpath-test">
+        <path refid="classpath"/>
         <pathelement location="${build.tests}"/>
     </path>
 
     <target name="compile" depends="clean, init">
         <javac srcdir="${src}" destdir="${classes}" includeantruntime="false">
-            <classpath>
-                <fileset dir="${lib}" includes="**/*.jar"/>
-            </classpath>
+            <classpath refid="classpath"/>
         </javac>
     </target>
+
     <target name="clean">
         <delete dir="${build}"/>
+        <delete dir="reports"/>
     </target>
+
     <target name="build" depends="compile">
         <copy todir="${build}">
             <fileset dir="${web}"/>
@@ -55,7 +40,7 @@
         <copy todir="${classes}">
             <fileset dir="${resources}"/>
         </copy>
-        <jar destfile="$${build}/${ant.project.name}.jar"
+        <jar destfile="${build}/${ant.project.name}.jar"
              basedir="${classes}"
              compress="false"
              index="true">
@@ -64,20 +49,22 @@
             <fileset dir="${build}"/>
         </war>
     </target>
-    <target name="compile-test" depends="init">
-        <javac destdir="${build.tests}" srcdir="${test}" includeantruntime="false">
+
+    <target name="compile-test" depends="compile">
+        <javac srcdir="${test}" destdir="${build.tests}" includeantruntime="false">
             <classpath refid="classpath-test"/>
         </javac>
     </target>
+
     <target name="test" depends="compile-test">
-        <junit printsummary="true" haltonfailure="yes" haltonerror="yes">
-            <classpath refid="classpath"/>
-            <classpath location="${build.tests}"/>
-            <test name="com.example.test.AreaResultCheckerTest"/>
-<!--            <batchtest fork="yes" todir="${junit.report}">-->
-<!--                <formatter type="plain"/>-->
-<!--                <fileset dir="${test}" includes="*.java"/>-->
-<!--            </batchtest>-->
+        <junit printsummary="true" haltonfailure="true">
+            <classpath refid="classpath-test"/>
+            <formatter type="plain"/>
+            <batchtest fork="true" todir="${junit.report}">
+                <fileset dir="${build.tests}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
         </junit>
     </target>
 </project>

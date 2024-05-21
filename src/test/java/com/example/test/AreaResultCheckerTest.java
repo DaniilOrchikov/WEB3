@@ -1,12 +1,12 @@
 package com.example.test;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class AreaResultCheckerTest {
 
     @Test
-    void getResult() {
+    public void getResult() {
         assertTrue(true);
     }
 }

@@ -1,34 +1,32 @@
 package com.example.test;
 
 import static com.example.web3.HibernateUtil.createSession;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.example.web3.Point;
 import com.example.web3.PointDAO;
 import org.hibernate.Session;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class PointDAOTest {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine");
-    PointDAO pointDAO;
+    static PointDAO pointDAO;
 
-    @BeforeAll
-    static void beforeAll() {
-        postgres.start();
+    @BeforeClass
+    public static void beforeClass() {
+        pointDAO = new PointDAO();
     }
 
-    @AfterAll
-    static void afterAll() {
-        postgres.stop();
+    @AfterClass
+    public static void afterClass() {
+        pointDAO.deleteAllPoints();
     }
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         pointDAO = new PointDAO();
     }
 
@@ -41,7 +39,7 @@ public class PointDAOTest {
     }
 
     @Test
-    void shouldAddPoint() {
+    public void shouldAddPoint() {
         int size = pointDAO.getAllPoints().size();
         Point point = new Point(1, 2, 3, true);
         pointDAO.addPoint(point);
@@ -49,7 +47,7 @@ public class PointDAOTest {
     }
 
     @Test
-    void shouldDeleteAllPoints() {
+    public void shouldDeleteAllPoints() {
         pointDAO.deleteAllPoints();
         assertEquals(0, pointDAO.getAllPoints().size());
     }

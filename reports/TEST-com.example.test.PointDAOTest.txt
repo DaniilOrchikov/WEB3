@@ -1,0 +1,50 @@
+Testsuite: com.example.test.PointDAOTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1,428 sec
+------------- Standard Output ---------------
+Hibernate: 
+    truncate table points
+Hibernate: 
+    select
+        this_.id as id1_0_0_,
+        this_.hit as hit2_0_0_,
+        this_.r as r3_0_0_,
+        this_.x as x4_0_0_,
+        this_.y as y5_0_0_ 
+    from
+        points this_
+Hibernate: 
+    select
+        this_.id as id1_0_0_,
+        this_.hit as hit2_0_0_,
+        this_.r as r3_0_0_,
+        this_.x as x4_0_0_,
+        this_.y as y5_0_0_ 
+    from
+        points this_
+Hibernate: 
+    insert 
+    into
+        points
+        (hit, r, x, y) 
+    values
+        (?, ?, ?, ?)
+Hibernate: 
+    select
+        this_.id as id1_0_0_,
+        this_.hit as hit2_0_0_,
+        this_.r as r3_0_0_,
+        this_.x as x4_0_0_,
+        this_.y as y5_0_0_ 
+    from
+        points this_
+Hibernate: 
+    truncate table points
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+SLF4J: A SLF4J service provider failed to instantiate:
+org.slf4j.spi.SLF4JServiceProvider: ch.qos.logback.classic.spi.LogbackServiceProvider Unable to get public no-arg constructor
+------------- ---------------- ---------------
+
+Testcase: shouldDeleteAllPoints took 1,192 sec
+Testcase: shouldGetSession took 0 sec
+Testcase: shouldAddPoint took 0,156 sec
