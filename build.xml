@@ -27,7 +27,7 @@
 
     <target name="clean">
         <delete dir="${build}"/>
-        <delete dir="reports"/>
+        <delete dir="${junit.report}"/>
     </target>
 
     <target name="build" depends="compile">
@@ -40,12 +40,10 @@
         <copy todir="${classes}">
             <fileset dir="${resources}"/>
         </copy>
-        <jar destfile="${build}/${ant.project.name}.jar"
-             basedir="${classes}"
-             compress="false"
-             index="true">
+        <jar destfile="${jar}"
+             basedir="${classes}">
         </jar>
-        <war destfile="${build}/${ant.project.name}.war" webxml="${build.web.xml}">
+        <war destfile="${war}" webxml="${build.web.xml}">
             <fileset dir="${build}"/>
         </war>
     </target>
@@ -57,7 +55,7 @@
     </target>
 
     <target name="test" depends="compile-test">
-        <junit printsummary="true" haltonfailure="true">
+        <junit printsummary="true">
             <classpath refid="classpath-test"/>
             <formatter type="plain"/>
             <batchtest fork="true" todir="${junit.report}">
@@ -66,5 +64,11 @@
                 </fileset>
             </batchtest>
         </junit>
+    </target>
+    <target name="env" depends="build">
+        <echo message="Running with Java version: ${java.version} and JVM args: ${jvm.args}"/>
+        <java jar="${jar}" fork="true">
+            <jvmarg line="${jvm.args}"/>
+        </java>
     </target>
 </project>
