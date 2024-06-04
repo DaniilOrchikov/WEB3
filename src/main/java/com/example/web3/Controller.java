@@ -6,8 +6,17 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+
+import com.example.web3.MBeans.ClickRate;
+import com.example.web3.MBeans.ClickRateMBean;
+import com.example.web3.MBeans.HitRate;
+import com.example.web3.MBeans.HitRateMBean;
+
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.management.ManagementFactory;
 
 @ApplicationScoped
 @Named
@@ -17,6 +26,22 @@ public class Controller implements Serializable {
     private double r = 1;
     @Inject
     private CollectionBean collectionBean;
+    private final HitRateMBean hitRate;
+    private final ClickRateMBean clickRate;
+    private final MBeanServer mBeanServer;
+
+    public Controller() {
+        hitRate = new HitRate();
+        clickRate = new ClickRate();
+        mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        try {
+            mBeanServer.registerMBean(clickRate, new ObjectName("KanekiKen:name=click"));
+            mBeanServer.registerMBean(hitRate, new ObjectName("Shizlo:name=hit"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Ты что ахуел?");
+        }
+    }
 
     public void submit() {
         Point point = new Point();
@@ -26,6 +51,11 @@ public class Controller implements Serializable {
         point.setHit(hit(x, y, r));
         collectionBean.addPoint(point);
 
+        clickRate.click(hit(x, y, r));
+        hitRate.click(hit(x, y, r));
+
+        System.out.println("У меня есть " + clickRate.getResult() + " демонов в голове, из них " + clickRate.getHit() + " ещё шизанутые");
+        System.out.println(hitRate.getPercentage());
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Point added", null);
         FacesContext.getCurrentInstance().addMessage(null, message);
 
