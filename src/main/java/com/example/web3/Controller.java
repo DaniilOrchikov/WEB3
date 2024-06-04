@@ -1,8 +1,13 @@
 package com.example.web3;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 
 @ApplicationScoped
@@ -13,6 +18,7 @@ public class Controller implements Serializable {
     private double r = 1;
     @Inject
     private CollectionBean collectionBean;
+
     public void submit() {
         Point point = new Point();
         point.setX(x);
@@ -20,7 +26,18 @@ public class Controller implements Serializable {
         point.setR(r);
         point.setHit(hit(x, y, r));
         collectionBean.addPoint(point);
+
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Point added", null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            ec.redirect(ec.getRequestContextPath() + "/main.xhtml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     public double getR() {
         return r;
     }
