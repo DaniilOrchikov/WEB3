@@ -35,10 +35,10 @@
               class="-R5">#{converter.convertDoubleToString(controller.r * -0.5)}</text>
         <text fill="black" x="192" y="325"
               class="-R">#{converter.convertDoubleToString(controller.r * -1)}</text>
-        <p:repeat value="#{collectionBean.points}" var="point">
+        <ui:repeat value="#{collectionBean.points}" var="point">
             <circle class='point' fill='#{point.hit ? "green" : "red"}'
                     cx='#{point.getX() * (144 / controller.r) + 144 + 36}'
                     cy='#{(point.getY() * (-144 / controller.r) + 144 + 36)}' r='4'/>
-        </p:repeat>
+        </ui:repeat>
     </svg>
 </ui:composition>

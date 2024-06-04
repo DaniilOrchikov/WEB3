@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.management.MBeanServer;
+import javax.management.NotificationListener;
 import javax.management.ObjectName;
 
 import com.example.web3.MBeans.ClickRate;
@@ -18,8 +19,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
-@ApplicationScoped
 @Named
+@ApplicationScoped
 public class Controller implements Serializable {
     private double x;
     private double y;
@@ -28,15 +29,20 @@ public class Controller implements Serializable {
     private CollectionBean collectionBean;
     private final HitRateMBean hitRate;
     private final ClickRateMBean clickRate;
-    private final MBeanServer mBeanServer;
 
     public Controller() {
-        hitRate = new HitRate();
         clickRate = new ClickRate();
-        mBeanServer = ManagementFactory.getPlatformMBeanServer();
+        hitRate = new HitRate();
         try {
-            mBeanServer.registerMBean(clickRate, new ObjectName("KanekiKen:name=click"));
-            mBeanServer.registerMBean(hitRate, new ObjectName("Shizlo:name=hit"));
+            MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+
+            ObjectName clickRateName = new ObjectName("KanekiKen:name=clickRate");
+            ObjectName hitRateName = new ObjectName("Shizlo:name=hitRate");
+            mBeanServer.registerMBean(clickRate, clickRateName);
+            mBeanServer.registerMBean(hitRate, hitRateName);
+
+            NotificationListener notificationListener = (notification, event) -> System.out.println("Уведомление от Грега: " + notification.getMessage());
+            mBeanServer.removeNotificationListener(clickRateName, notificationListener, null, null);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Ты что ахуел?");
