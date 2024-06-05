@@ -3,7 +3,6 @@ package com.example.web3.MBeans;
 import javax.management.Notification;
 import javax.management.NotificationBroadcasterSupport;
 import java.io.Serializable;
-import java.sql.SQLOutput;
 
 public class ClickRate extends NotificationBroadcasterSupport implements Serializable, ClickRateMBean {
     
